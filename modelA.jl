@@ -130,7 +130,7 @@ maxt = 10000*L^2
 
 open("output_$L.dat","w") do io 
 	for i in 0:maxt
-		println(io, i, " ", op(ϕ, L,)) # saving MC time and the average value of the magnetization
+		println(io, i, " ", op(ϕ, L)) # saving MC time and the average value of the magnetization
 		flush(stdout)
 		sweep(m², ϕ, L)
 	end
