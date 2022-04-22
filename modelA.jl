@@ -8,6 +8,9 @@ using Random
 using DelimitedFiles
 using SLEEF
 using JLD2
+using FFTW
+using Printf
+
 
 #Random.seed!(parse(Int,ARGS[1]))
 
@@ -97,8 +100,9 @@ function sweep(m², ϕ, L)
 end
 
 function op(ϕ, L)
-	average = sum( ϕ )/L^3
-	average
+	ϕk = fft(ϕ)
+	average = ϕk[1,1,1]/L^3
+	(real(average),ϕk[:,1,1])
 end
 
 
@@ -130,8 +134,12 @@ maxt = 10000*L^2
 
 open("output_$L.dat","w") do io 
 	for i in 0:maxt
-		println(io, i, " ", op(ϕ, L)) # saving MC time and the average value of the magnetization
-		flush(stdout)
+		(M,ϕk) = op(ϕ, L)
+		Printf.@printf(io, "%i %f", i, M)
+		for kx in 1:L
+			Printf.@printf(io, " %f %f", real(ϕk[kx]), imag(ϕk[kx]))
+		end 
+		Printf.@printf(io, "\n")
 		sweep(m², ϕ, L)
 	end
 end
