@@ -15,7 +15,7 @@ using Printf
 #Random.seed!(parse(Int,ARGS[1]))
 
 ### Lattice Size
-const L = 8 #parse(Int,ARGS[2])
+const L = 16 #parse(Int,ARGS[2])
 ### end
 
 ξ = Normal(0.0f0, 1.0f0)
@@ -130,7 +130,7 @@ m² = -2.285
 
 thermalize(m²,ϕ, L, 100*L^2)
 
-maxt = 10000*L^2
+maxt = 500*L^2
 
 open("output_$L.dat","w") do io 
 	for i in 0:maxt
@@ -140,7 +140,7 @@ open("output_$L.dat","w") do io
 			Printf.@printf(io, " %f %f", real(ϕk[kx]), imag(ϕk[kx]))
 		end 
 		Printf.@printf(io, "\n")
-		sweep(m², ϕ, L)
+		thermalize(m², ϕ, L, 20)
 	end
 end
 
