@@ -15,7 +15,7 @@ using Printf
 #Random.seed!(parse(Int,ARGS[1]))
 
 ### Lattice Size
-const L = 16 #parse(Int,ARGS[2])
+const L = 8 #parse(Int,ARGS[2])
 ### end
 
 ξ = Normal(0.0f0, 1.0f0)
